@@ -17,3 +17,24 @@ Output: 14
 Input: nums = [-5,-3,-3,-2,7,1], multipliers = [-10,-5,3,4,6]
 Output: 102
 """
+
+
+# My solution
+def max_score(nums, multipliers):
+
+    n, m = len(nums), len(multipliers)
+
+    def dp(i, left):
+        if i == m:
+            return 0
+
+        mult = multipliers[i]
+        right = n - 1 - (i - left)
+
+        return max(mult * nums[left] + dp(i + 1, left + 1), mult * nums[right] + dp(i + 1, left))
+
+    return dp(0, 0)
+
+
+# print(max_score([1, 2, 3], [3, 2, 1]))
+print(max_score([-5, -3, -3, -2, 7, 1], [-10, -5, 3, 4, 6]))
