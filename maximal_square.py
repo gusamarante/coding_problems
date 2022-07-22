@@ -13,26 +13,45 @@ Output: 1
 Input: matrix = [["0"]]
 Output: 0
 """
+
+
 def maximalSquare(matrix):
     """
     :type matrix: List[List[str]]
     :rtype: int
     """
 
-    def dp(mat):
-        m = len(mat)
-        n = len(mat[0])
+    n = len(matrix)
+    m = len(matrix[0])
 
-        for i in range(m):
-            for j in range(n):
+    # size of square at i,j position in dp
+    dp = [[0 for i in range(m)] for j in range(n)]
+    side = 0
 
-                if mat[i][j] == 0:
-                    sqr1 = mat[:i][:j]
-                    sqr2 = mat[:i][j + 1:]
-                    sqr3 = mat[i + 1:][:j]
-                    sqr4 = mat[i + 1:][j + 1:]
-                    return max(dp(sqr1), dp(sqr2), dp(sqr3), dp(sqr4))
+    for i in range(n):
+        if dp[i][0] == 1:
+            dp[i][0] = 1
 
-        return n * m
+    for j in range(1, m):
+        if dp[0][j] == 1:
+            dp[0][j] = 1
 
-    return dp(matrix)
+    for i in range(1, n):
+        for j in range(1, m):
+            if matrix[i][j] == 1:
+                # dp[i][j] is the final answer,
+                # the last block of the square in this case.
+                from_up = dp[i - 1][j]
+                from_right = dp[i][j - 1]
+                from_dia = dp[i - 1][j - 1]
+                dp[i][j] = 1 + min(from_up, from_right, from_dia)
+            side = max(side, dp[i][j])
+    return side * side
+
+
+mat = [[1, 0, 1, 0, 0],
+       [1, 0, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [1, 0, 0, 1, 0]]
+
+print(maximalSquare(mat))
