@@ -1,19 +1,26 @@
 
 def pascal(numRows):
-    triangle = []
+    triangle = [[1]]
 
-    for i in range(numRows):
+    for i in range(1, numRows):
         current_line = [1]
-        for j in range(i):
+        for j in range(1, i+1):
+
+            if i >= 1:
+                first_term = triangle[i - 1][j - 1]
+            else:
+                first_term = 0
 
             try:
-                current_line.append(triangle[i - 1][j - 1] + triangle[i - 1][j])
+                second_term = triangle[i - 1][j]
             except IndexError:
-                current_line.append(1)
+                second_term = 0
+
+            current_line.append(first_term + second_term)
 
         triangle.append(current_line)
 
     return triangle
 
 
-print(pascal(5))
+print(pascal(10))
