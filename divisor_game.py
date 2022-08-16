@@ -12,16 +12,22 @@ Return true if and only if Alice wins the game, assuming both players play optim
 
 
 def divisor_game(n):
-    memo = {}
+    # base cases
+    memo = {1: False,
+            2: True}
 
-    def dp(k, a_turn):
+    # recurssive solution
+    def dp(k):
+        if k not in memo:
+            memo[k] = False
+            for i in range(1, k):
+                if k % i == 0:
+                    memo[k] = memo[k] or not dp(k - i)
 
-        if k == 1 and a_turn:
-            return False
-        elif k == 1 and not a_turn:
-            return True
+        return memo[k]
 
-    return dp(n, True)
+    return dp(n)
 
 
-print(divisor_game(1))
+for jj in range(1, 1000):
+    print(jj, divisor_game(jj))
