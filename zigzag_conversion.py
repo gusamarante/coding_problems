@@ -54,10 +54,5 @@ def convert(s, numRows):
     return zzstr
 
 
-# leetcode solution
-def convert2(s, numRows):
-
-
-
 msg = "AB"
 print(convert(msg, 1))
